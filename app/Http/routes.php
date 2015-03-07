@@ -10,12 +10,17 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
 Route::get('/', 'WelcomeController@index');
-
 Route::get('home', 'HomeController@index');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
+	'password' => 'Auth\PasswordController'
 ]);
+
+Route::group(['prefix' => 'api/v1/'], function()
+{
+	Route::get('lessons/{id}/tags', 'TagsController@index');
+    Route::resource('lessons','LessonsController');
+    Route::resource('tags','TagsController',array('only' => ['index','show'] ));
+});
